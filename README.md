@@ -42,3 +42,4 @@ access to `http://localhost:8080/` and try to register and login.
 ## Reference
 
 - https://www.w3.org/TR/webauthn-3/
+- https://developer.mozilla.org/ja/docs/Web/API/Web_Authentication_API
