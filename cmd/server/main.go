@@ -34,7 +34,7 @@ func loadEnv() {
 	if os.Getenv("RPID") == "" {
 		env.RPID = "localhost"
 	}
-	if os.Getenv("RPOrigin") == "" {
+	if os.Getenv("RP_ORIGIN") == "" {
 		env.RPOrigin = "http://localhost:8080"
 	}
 }
