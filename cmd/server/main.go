@@ -17,6 +17,8 @@ import (
 
 var env struct {
 	SessionSecret []byte
+	RPID          string
+	RPOrigin 	  string
 }
 
 func loadEnv() {
@@ -29,14 +31,20 @@ func loadEnv() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	if os.Getenv("RPID") == "" {
+		env.RPID = "localhost"
+	}
+	if os.Getenv("RPOrigin") == "" {
+		env.RPOrigin = "http://localhost:8080"
+	}
 }
 
 func main() {
 	loadEnv()
 	wconfig := &webauthn.Config{
 		RPDisplayName: "Go WebAuthn",
-		RPID:          "localhost",
-		RPOrigin:      "http://localhost:8080",
+		RPID:          env.RPID,
+		RPOrigin:      env.RPOrigin,
 	}
 	webAuthn, err := webauthn.New(wconfig)
 	if err != nil {
