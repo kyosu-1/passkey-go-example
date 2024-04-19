@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/base64"
 	"fmt"
 	"log"
 	"net/http"
@@ -22,20 +21,20 @@ var env struct {
 }
 
 func loadEnv() {
-	var err error
 	if os.Getenv("SESSION_SECRET") == "" {
 		env.SessionSecret = []byte("your-secret-key")
-		return
-	}
-	env.SessionSecret, err = base64.StdEncoding.DecodeString(os.Getenv("SESSION_SECRET"))
-	if err != nil {
-		log.Fatal(err)
+	} else {
+		env.SessionSecret = []byte(os.Getenv("SESSION_SECRET"))
 	}
 	if os.Getenv("RPID") == "" {
 		env.RPID = "localhost"
+	} else {
+		env.RPID = os.Getenv("RPID")
 	}
 	if os.Getenv("RP_ORIGIN") == "" {
 		env.RPOrigin = "http://localhost:8080"
+	} else {
+		env.RPOrigin = os.Getenv("RP_ORIGIN")
 	}
 }
 
