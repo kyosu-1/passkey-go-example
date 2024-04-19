@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://unpkg.com/@simplewebauthn/browser/dist/bundle/index.umd.min.js"></script>
+</head>
+<body>
+  <h1>Passkey Example: Sign-in</h1>
+  <label for="username">Username:</label><br>
+  <input name="username" id="loginform.username" autocomplete="username webauthn"><br>
+  <p id="message"></p>
+  <script>
+    (
+      async () => {
+        const { startAuthentication } = SimpleWebAuthnBrowser;
+        const elemMsg = document.getElementById('message');
+        const resp = await fetch('/assertion/options', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const opts = await resp.json();
+        let asseResp;
+        try {
+          asseResp = await startAuthentication(opts.publicKey, true);
+        } catch (error) {
+          throw error;
+        }
+        const verificationResp = await fetch('/assertion/result', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(asseResp),
+        });
+        const verificationJSON = await verificationResp.json();
+        if (verificationJSON && verificationJSON.status === 'ok') {
+          window.location.href = '/success'; // ログイン成功時のページ
+        } else {
+          elemMsg.innerText = 'Error: ' + verificationJSON.errorMessage;
+        }
+      }
+    )().catch(err => console.log(err));
+  </script>
+</body>
+</html>
