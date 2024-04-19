@@ -42,4 +42,5 @@ access to `http://localhost:8080/` and try to register and login.
 ## Reference
 
 - https://www.w3.org/TR/webauthn-3/
+- https://fidoalliance.org/specs/fido-v2.2-rd-20230321/fido-client-to-authenticator-protocol-v2.2-rd-20230321.html
 - https://developer.mozilla.org/ja/docs/Web/API/Web_Authentication_API
