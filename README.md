@@ -1,10 +1,11 @@
 # passkey-go-example
-Try passkey in go.
 
-Note that this implementation uses the following two libraries:
+Go での Passkey Autofill を試すための実装
 
-- https://github.com/go-webauthn/webauthn
-- https://github.com/MasterKale/SimpleWebAuthn
+以下の二つのライブラリを利用
+
+- https://github.com/go-webauthn/webauthn (client side)
+- https://github.com/MasterKale/SimpleWebAuthn (server side)
 
 ## How to run
 
@@ -14,6 +15,31 @@ go run cmd/server/main.go
 
 access to `http://localhost:8080/` and try to register and login.
 
+## Endpoint
+
+### 登録
+
+パスキーの登録時には以下のエンドポイントを利用
+
+- POST: /attestation/options
+- POST: /attestation/result
+
+![](./images/register.png)
+
+(出典：[ウェブ認証 API – Web API | MDN](https://developer.mozilla.org/ja/docs/Web/API/Web_Authentication_API) )
+
+### 認証
+
+パスキーによる認証時には以下のエンドポイントを利用
+
+- POST: /assertion/options
+- POST: /assertion/result
+
+![](./images/authentication.png)
+
+(出典：[ウェブ認証 API – Web API | MDN](https://developer.mozilla.org/ja/docs/Web/API/Web_Authentication_API) )
+
 ## Reference
 
 - https://www.w3.org/TR/webauthn-3/
+- https://developer.mozilla.org/ja/docs/Web/API/Web_Authentication_API
