@@ -39,3 +39,6 @@ access to `http://localhost:8080/` and try to register and login.
 
 (出典：[ウェブ認証 API – Web API | MDN](https://developer.mozilla.org/ja/docs/Web/API/Web_Authentication_API) )
 
+## Reference
+
+- https://www.w3.org/TR/webauthn-3/
