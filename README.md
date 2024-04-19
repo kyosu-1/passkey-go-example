@@ -13,3 +13,7 @@ go run cmd/server/main.go
 ```
 
 access to `http://localhost:8080/` and try to register and login.
+
+## Reference
+
+- https://www.w3.org/TR/webauthn-3/
