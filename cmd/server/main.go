@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/base64"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -20,9 +21,13 @@ var env struct {
 
 func loadEnv() {
 	var err error
+	if os.Getenv("SESSION_SECRET") == "" {
+		env.SessionSecret = []byte("your-secret-key")
+		return
+	}
 	env.SessionSecret, err = base64.StdEncoding.DecodeString(os.Getenv("SESSION_SECRET"))
 	if err != nil {
-		env.SessionSecret = []byte("your-secret-key")
+		log.Fatal(err)
 	}
 }
 
@@ -64,9 +69,14 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
-func authMiddleware(next http.HandlerFunc, sessStore sessions.Store) http.HandlerFunc {
+func authMiddleware(next http.HandlerFunc, sessStore *sessions.CookieStore) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		session, _ := sessStore.Get(r, "session-name")
+		session, err := sessStore.Get(r, "session-name")
+		if err != nil {
+			fmt.Printf("error: %v\n", err)
+			http.Redirect(w, r, "/login", http.StatusFound)
+			return
+		}
 		if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 			http.Redirect(w, r, "/login", http.StatusFound)
 			return

@@ -34,7 +34,14 @@ func (h *hander) AssertionOptions(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *hander)AssertionResult(w http.ResponseWriter, r *http.Request) {
-	session, _ := h.sessStore.Get(r, "session-name")
+	session, err := h.sessStore.Get(r, "session-name")
+	if err != nil {
+		jsonResponse(w, FIDO2Response{
+			Status:       "failed",
+			ErrorMessage: err.Error(),
+		}, http.StatusBadRequest)
+		return
+	}
 
 	if err := r.ParseForm(); err != nil {
 		jsonResponse(w, FIDO2Response{
